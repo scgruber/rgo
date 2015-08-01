@@ -17,6 +17,12 @@ var checkInBounds = function(x, y, size) {
   }
 }
 
+GobanModel.prototype.clone = function() {
+  var clone = new GobanModel(this.size);
+  clone._board = this._board;
+  return clone;
+}
+
 GobanModel.prototype.get = function(x,y) {
   checkInBounds(x,y,this.size);
 
@@ -26,7 +32,9 @@ GobanModel.prototype.get = function(x,y) {
 GobanModel.prototype.set = function(x,y,value) {
   checkInBounds(x,y,this.size);
 
-  this._board[toLinearIndex([x,y], this.size)] = value;
+  var clone = this.clone();
+  clone._board[toLinearIndex([x,y], this.size)] = value;
+  return clone;
 }
 
 module.exports = GobanModel;

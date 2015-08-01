@@ -16,8 +16,7 @@ var GameView = React.createClass({
   },
 
   handlePlace: function(x, y) {
-    board = this.state.board;
-    board.set(x,y,this.state.active);
+    board = this.state.board.set(x,y,this.state.active);
     this.setState({board: board, active: this.state.active * -1});
   },
 
