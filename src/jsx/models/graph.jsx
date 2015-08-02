@@ -10,6 +10,10 @@ var GraphModel = function(nodes, edges) {
   }, this);
 }
 
+GraphModel.prototype.clone = function() {
+  return new GraphModel(this.nodes(), this.edges());
+}
+
 GraphModel.prototype.node = function(node) {
   if (this._nodes[node]) {
     return this._nodes[node];

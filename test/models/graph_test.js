@@ -18,6 +18,21 @@ describe('GraphModel', function() {
     });
   });
 
+  describe('#clone', function() {
+    it('should create the same graph', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" },
+        { name: "r", data: "ipsumlorem" }
+      ];
+      edges = [ ["n", "m"], ["m", "r"], ["q", "n"] ];
+      graph1 = new GraphModel(nodes, edges);
+      graph2 = graph1.clone();
+      assert.deepEqual(graph1, graph2);
+    });
+  });
+
   describe('#node', function() {
     it('should return a node that is in the graph', function() {
       node = { name: "n", data: "fooasdfbar" };
