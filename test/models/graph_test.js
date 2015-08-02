@@ -172,4 +172,44 @@ describe('GraphModel', function() {
       assert.deepEqual(graph.undirectedComponents().sort(), [ ["n", "m"], ["q", "r"] ]);
     })
   });
+
+  describe('#forEachNode', function() {
+    it('should return an empty array if there are no nodes in the graph', function() {
+      nodes = [];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.forEachNode([], function(n) { return n; }), []);
+    });
+
+    it('should ignore nodes not in the graph', function() {
+      nodes = [];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.forEachNode(["n", "m"], function(n) { return n; }), []);
+    });
+
+    it('should return an empty array if we don\'t pass any nodes', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" },
+        { name: "r", data: "ipsumlorem" }
+      ];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.forEachNode([], function(n) { return n; }), []);
+    });
+
+    it('should return correct results', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" },
+        { name: "r", data: "ipsumlorem" }
+      ];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.forEachNode(["n", "m"], function(n) { return n; }).sort(), nodes.slice(0,2));
+    });
+  });
 });

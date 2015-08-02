@@ -88,4 +88,14 @@ GraphModel.prototype.undirectedComponents = function(visitIf) {
   return components;
 }
 
+GraphModel.prototype.forEachNode = function(nodes, fn) {
+  return nodes.map(function(node) {
+    if (this._nodes[node]) {
+      return fn(this._nodes[node]);
+    } else {
+      return null;
+    }
+  }, this).filter(function(result) { return result !== null; });
+}
+
 module.exports = GraphModel;
