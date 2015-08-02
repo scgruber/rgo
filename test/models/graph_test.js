@@ -95,6 +95,25 @@ describe('GraphModel', function() {
     });
   });
 
+  describe('#updateNode', function() {
+    it('should do nothing if data is empty', function() {
+      nodes = [ { name: "n", data: "fooasdfbar" } ];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      graph.updateNode("n", {});
+      assert.deepEqual(graph.node("n"), nodes[0]);
+    });
+
+    it('should change an attribute', function() {
+      nodes = [ { name: "n", data: "fooasdfbar" } ];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      graph.updateNode("n", { data: "barasdffoo" });
+      assert.deepEqual(graph.node("n").data, "barasdffoo");
+      assert.deepEqual(graph.node("n").name, "n");
+    });
+  });
+
   describe('#dfs', function() {
     it('should discover downstream nodes in a list', function() {
       nodes = [

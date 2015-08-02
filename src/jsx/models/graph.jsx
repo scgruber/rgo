@@ -39,6 +39,12 @@ GraphModel.prototype.edges = function() {
   return edges;
 }
 
+GraphModel.prototype.updateNode = function(node, data) {
+  Object.keys(data).forEach(function(datum) {
+    this._nodes[node][datum] = data[datum];
+  }, this);
+}
+
 GraphModel.prototype.dfs = function(node, visitIf) {
   function visitDescendents(n, descendents) {
     descendents.push(n);
