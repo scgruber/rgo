@@ -45,6 +45,26 @@ GraphModel.prototype.updateNode = function(node, data) {
   }, this);
 }
 
+GraphModel.prototype.neighbors = function(nodes) {
+  if (!(nodes instanceof Array)) {
+    nodes = [nodes];
+  }
+
+  var neighbors = {};
+  nodes.forEach(function(node) {
+    Object.keys(this._meta[node].out_edges).forEach(function(neighbor) {
+      neighbors[neighbor] = true;
+    }, this);
+  }, this);
+
+  // Remove nodes in the set from the neighbors
+  nodes.forEach(function(node) {
+    delete neighbors[node];
+  });
+
+  return Object.keys(neighbors);
+}
+
 GraphModel.prototype.dfs = function(node, visitIf) {
   function visitDescendents(n, descendents) {
     descendents.push(n);

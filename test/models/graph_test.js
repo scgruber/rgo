@@ -114,6 +114,62 @@ describe('GraphModel', function() {
     });
   });
 
+  describe('#neighbors', function() {
+    it('should return an empty list if the graph has no edges', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" }
+      ];
+      edges = [];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.neighbors(["n"]), []);
+    });
+
+    it('should return neighbors', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" }
+      ];
+      edges = [ ["n", "m"], ["n", "q"] ];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.neighbors(["n"]).sort(), ["m", "q"]);
+    });
+
+    it('should return neighbors for a singleton', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" }
+      ];
+      edges = [ ["n", "m"], ["n", "q"] ];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.neighbors("n").sort(), ["m", "q"]);
+    });
+
+    it('should not return duplicates', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" }
+      ];
+      edges = [ ["n", "m"], ["q", "m"] ];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.neighbors(["n", "q"]).sort(), ["m"]);
+    });
+
+    it('should not return nodes in the query set', function() {
+      nodes = [
+        { name: "n", data: "fooasdfbar" },
+        { name: "m", data: "barasdffoo" },
+        { name: "q", data: "loremipsum" }
+      ];
+      edges = [ ["n", "m"], ["n", "n"] ];
+      graph = new GraphModel(nodes, edges);
+      assert.deepEqual(graph.neighbors(["n"]).sort(), ["m"]);
+    });
+  });
+
   describe('#dfs', function() {
     it('should discover downstream nodes in a list', function() {
       nodes = [
