@@ -1,4 +1,5 @@
 var GraphModel = require('./graph.jsx');
+var Move = require('../lib/move.jsx');
 
 var GobanModel = function(size) {
   this.size = size
@@ -44,18 +45,22 @@ GobanModel.prototype.clone = function() {
   return clone;
 }
 
-GobanModel.prototype.get = function(x,y) {
-  checkInBounds(x,y,this.size);
-
-  return this._board.node(toNodeName([x,y])).value;
+GobanModel.prototype.read = function(x,y) {
+  if (Move.isOnBoard(toNodeName([x,y]), this._board)) {
+    return this._board.node(toNodeName([x,y])).value;
+  } else {
+    return null;
+  }
 }
 
-GobanModel.prototype.set = function(x,y,value) {
-  checkInBounds(x,y,this.size);
-
-  var clone = this.clone();
-  clone._board.updateNode(toNodeName([x,y]), { value: value });
-  return clone;
+GobanModel.prototype.move = function(x,y,value) {
+  var next_board = Move.move(toNodeName([x,y]),value,this._board);
+  if (next_board) {
+    this._board = next_board;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 module.exports = GobanModel;

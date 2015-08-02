@@ -23,7 +23,7 @@ var GobanComponent = React.createClass({
                 return (
                   <td key = { colIdx }
                       className = "goban-cell">
-                    <GobanCellComponent value       = { _this.props.board.get(colIdx,rowIdx) }
+                    <GobanCellComponent value       = { _this.props.board.read(colIdx,rowIdx) }
                                         x           = { colIdx }
                                         y           = { rowIdx }
                                         board_size  = { _this.props.board.size }
