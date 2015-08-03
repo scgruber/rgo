@@ -70,7 +70,7 @@ GraphModel.prototype.dfs = function(node, visitIf) {
     descendents.push(n);
     this._meta[n].visited = true;
     Object.keys(this._meta[n].out_edges).forEach(function(neighbor) {
-      if ((!this._meta[neighbor].visited) && ((!visitIf) || visitIf(n, neighbor))) {
+      if ((!this._meta[neighbor].visited) && ((!visitIf) || visitIf(this._nodes[n], this._nodes[neighbor]))) {
         visitDescendents.call(this, neighbor, descendents);
       }
     }, this);
